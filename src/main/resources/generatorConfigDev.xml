@@ -13,7 +13,7 @@
             <property name="enableSubPackages" value="false" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
-        <sqlMapGenerator targetPackage="com.example.ecommerce.bean.mapper"
+        <sqlMapGenerator targetPackage="com.example.ecommerce.db.mapper"
                          targetProject="src/main/resources/">
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
@@ -23,25 +23,25 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
         <table tableName="customer" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="customer_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="customer_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="product" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="product_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="product_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="order"  enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="order_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="order_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="order_item" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="order_item_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="order_item_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="payment" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="payment_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="payment_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="cart" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="cart_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="cart_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="product_category" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
-            <generatedKey column="product_category_id" sqlStatement="JBDC" identity="true" />
+            <generatedKey column="product_category_id" sqlStatement="MySQL" identity="true" />
         </table>
     </context>
 </generatorConfiguration>
