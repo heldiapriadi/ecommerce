@@ -3,12 +3,11 @@ package com.example.ecommerce.controller;
 import com.example.ecommerce.exception.AddToCartException;
 import com.example.ecommerce.process.CartOperations;
 import com.example.ecommerce.request.AddToCartRequest;
+import com.example.ecommerce.request.ClearCartRequest;
+import com.example.ecommerce.request.RemoveFromCartRequest;
 import com.example.ecommerce.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -37,4 +36,35 @@ public class ShoppingCartController {
             return ResponseEntity.internalServerError().body(apiResponse);
         }
     }
+
+    @DeleteMapping("/remove-from-cart")
+    public ResponseEntity<?> removeFromCart(@RequestBody @Valid RemoveFromCartRequest removeFromCartRequest){
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            cartOperations.removeFromCart(removeFromCartRequest.getCustomerId(), removeFromCartRequest.getProductId());
+            apiResponse.setMessage("Removed from cart successfully");
+            apiResponse.setSuccess(true);
+            return ResponseEntity.ok(apiResponse);
+        }catch (Exception e){
+            apiResponse.setMessage("Failed to remove from cart");
+            apiResponse.setSuccess(false);
+            return ResponseEntity.internalServerError().body(apiResponse);
+        }
+    }
+
+    @DeleteMapping("/clear-cart")
+    public ResponseEntity<?> clearCart(@RequestBody ClearCartRequest clearCartRequest){
+        ApiResponse apiResponse = new ApiResponse();
+        try {
+            cartOperations.clearCart(clearCartRequest.getCustomerId());
+            apiResponse.setMessage("Cart cleared successfully");
+            apiResponse.setSuccess(true);
+            return ResponseEntity.ok(apiResponse);
+        }catch (Exception e){
+            apiResponse.setMessage("Failed to clear cart");
+            apiResponse.setSuccess(false);
+            return ResponseEntity.internalServerError().body(apiResponse);
+        }
+    }
+
 }

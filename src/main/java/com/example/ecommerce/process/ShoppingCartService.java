@@ -45,6 +45,20 @@ public class ShoppingCartService implements CartOperations {
         }
     }
 
+    @Override
+    public void removeFromCart(Long customerId, Long productId) {
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andCustomerIdEqualTo(customerId).andProductIdEqualTo(productId);
+        cartMapper.deleteByExample(cartExample);
+    }
+
+    @Override
+    public void clearCart(Long customerId) {
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andCustomerIdEqualTo(customerId);
+        cartMapper.deleteByExample(cartExample);
+    }
+
     private Cart findCartByCustomerIdAndProductId(Long customerId, Long productId){
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andCustomerIdEqualTo(customerId).andProductIdEqualTo(productId);
