@@ -29,26 +29,26 @@ public class ShoppingCartService implements CartOperations {
             throw new AddToCartException("Not enough quantity");
         }
 
-        List<Cart> cartList = findCartByCustomerId(customerId);
-
-        cartList.stream().filter(cart -> cart.getProductId().equals(productId)).findFirst().ifPresentOrElse(cart -> {
+        Cart cart = findCartByCustomerIdAndProductId(customerId, productId);
+        if(cart == null) {
+            cart = new Cart();
+            cart.setCustomerId(customerId);
+            cart.setProductId(productId);
+            cart.setQuantity(quantity);
+            cartMapper.insert(cart);
+        }else{
             if(cart.getQuantity() + quantity > product.getQuantity()){
                 throw new AddToCartException("Not enough quantity");
             }
             cart.setQuantity(cart.getQuantity() + quantity);
             cartMapper.updateByPrimaryKey(cart);
-        }, () -> {
-            Cart cart = new Cart();
-            cart.setCustomerId(customerId);
-            cart.setProductId(productId);
-            cart.setQuantity(quantity);
-            cartMapper.insert(cart);
-        });
+        }
     }
 
-    private List<Cart> findCartByCustomerId(Long customerId){
+    private Cart findCartByCustomerIdAndProductId(Long customerId, Long productId){
         CartExample cartExample = new CartExample();
-        cartExample.createCriteria().andCustomerIdEqualTo(customerId);
-        return cartMapper.selectByExample(cartExample);
+        cartExample.createCriteria().andCustomerIdEqualTo(customerId).andProductIdEqualTo(productId);
+        List<Cart> cartList = cartMapper.selectByExample(cartExample);
+        return cartList.stream().findFirst().orElse(null);
     }
 }
