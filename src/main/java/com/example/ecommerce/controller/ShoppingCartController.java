@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/shopping-cart")
@@ -19,7 +20,7 @@ public class ShoppingCartController {
     private CartOperations cartOperations;
 
     @PostMapping("/add-to-cart")
-    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequest addToCartRequest){
+    public ResponseEntity<?> addToCart(@RequestBody @Valid AddToCartRequest addToCartRequest){
         ApiResponse apiResponse = new ApiResponse();
         try {
             cartOperations.addToCart(addToCartRequest.getCustomerId(), addToCartRequest.getProductId(), addToCartRequest.getQuantity());
