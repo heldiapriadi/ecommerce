@@ -32,6 +32,9 @@ public class ShoppingCartService implements CartOperations {
         List<Cart> cartList = findCartByCustomerId(customerId);
 
         cartList.stream().filter(cart -> cart.getProductId().equals(productId)).findFirst().ifPresentOrElse(cart -> {
+            if(cart.getQuantity() + quantity > product.getQuantity()){
+                throw new AddToCartException("Not enough quantity");
+            }
             cart.setQuantity(cart.getQuantity() + quantity);
             cartMapper.updateByPrimaryKey(cart);
         }, () -> {
