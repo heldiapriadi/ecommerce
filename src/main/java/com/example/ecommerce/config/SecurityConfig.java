@@ -36,7 +36,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
-    List<String> publicApis = List.of("/api/auth/v1/**");
+    String[] whiteList = new String[]{"/api/v1/auth/**","/api/v1/product-category/**"};
     @Resource
     private CustomerUserDetailsService customerUserDetailsService;
 
@@ -68,7 +68,7 @@ public class SecurityConfig{
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/api/auth/v1/**");
+        return (web) -> web.ignoring().antMatchers(whiteList);
     }
 
     @Bean
@@ -77,7 +77,7 @@ public class SecurityConfig{
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests((authorize) -> authorize
-                        .antMatchers("/api/auth/v1/**").permitAll()
+                        .antMatchers(whiteList).permitAll()
                         .anyRequest().authenticated()
                 );
 
