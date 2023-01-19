@@ -30,7 +30,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         apiResponse.setMessage(authException.getMessage());
         apiResponse.setErrorCode(412);
 
-
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), apiResponse);
     }

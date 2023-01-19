@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/auth/v1")
+@RequestMapping("api/v1/auth/")
 public class AuthenticationController   {
     @Resource
     private UserOperations userOperations;

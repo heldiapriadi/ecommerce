@@ -61,7 +61,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/clear-cart")
-    public ResponseEntity<?> clearCart(@RequestBody ClearCartRequest clearCartRequest){
+    public ResponseEntity<?> clearCart(@RequestBody @Valid ClearCartRequest clearCartRequest){
         ApiResponse apiResponse = new ApiResponse();
         try {
             SecurityUtil.validateCustomer(clearCartRequest.getCustomerId());
@@ -77,7 +77,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/get-cart")
-    public ResponseEntity<?> getCart(@RequestParam("customer_id") Long customerId){
+    public ResponseEntity<?> getCart(@RequestParam("customer_id") @Valid Long customerId){
         ApiResponse apiResponse = new ApiResponse();
         try {
             SecurityUtil.validateCustomer(customerId);
