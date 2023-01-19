@@ -39,7 +39,7 @@ public class ShoppingCartService implements CartOperations {
         }else{
             if(cart.getQuantity() + quantity > product.getQuantity()){
                 throw new AddToCartException("Not enough quantity");
-            }else if(cart.getQuantity() + quantity == 0) {
+            }else if(cart.getQuantity() + quantity < 1) {
                 removeFromCart(customerId, productId);
             }
             cart.setQuantity(cart.getQuantity() + quantity);
