@@ -19,7 +19,7 @@ public class ShoppingCartController {
     private CartOperations cartOperations;
 
     @PostMapping("/add-to-cart")
-    public ResponseEntity<?> addToCart(@RequestBody AddToCartRequest addToCartRequest){
+    public ResponseEntity<?> addToCart(@RequestBody @Valid AddToCartRequest addToCartRequest){
         ApiResponse apiResponse = new ApiResponse();
         try {
             cartOperations.addToCart(addToCartRequest.getCustomerId(), addToCartRequest.getProductId(), addToCartRequest.getQuantity());
