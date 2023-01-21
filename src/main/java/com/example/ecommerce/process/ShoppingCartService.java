@@ -10,12 +10,14 @@ import com.example.ecommerce.db.mapper.ProductMapper;
 import com.example.ecommerce.exception.AddToCartException;
 import com.example.ecommerce.response.ProductCartResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ShoppingCartService implements CartOperations {
     private final ProductMapper productMapper;
 
@@ -25,6 +27,7 @@ public class ShoppingCartService implements CartOperations {
 
     @Override
     public void addToCart(Long customerId,Long productId, int quantity) {
+        log.info("addToCart start customerId: {}, productId: {}, quantity: {}", customerId, productId, quantity);
         Product product = productMapper.selectByPrimaryKey(productId);
         if (product == null) {
             throw new AddToCartException("Product not found");
@@ -54,6 +57,7 @@ public class ShoppingCartService implements CartOperations {
 
     @Override
     public void removeFromCart(Long customerId, Long productId) {
+        log.info("removeFromCart start customerId: {}, productId: {}", customerId, productId);
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andCustomerIdEqualTo(customerId).andProductIdEqualTo(productId);
         cartMapper.deleteByExample(cartExample);
@@ -61,6 +65,7 @@ public class ShoppingCartService implements CartOperations {
 
     @Override
     public void clearCart(Long customerId) {
+        log.info("clearCart start customerId: {}", customerId);
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andCustomerIdEqualTo(customerId);
         cartMapper.deleteByExample(cartExample);
@@ -68,11 +73,13 @@ public class ShoppingCartService implements CartOperations {
 
     @Override
     public List<ProductCartResponse> getCart(Long customerId) {
+        log.info("getCart start customerId: {}", customerId);
         List<ProductCart> productCarts = cartProductMapper.getCartProduct(customerId);
         return ProductCartResponse.fromProductCarts(productCarts);
     }
 
     private Cart findCartByCustomerIdAndProductId(Long customerId, Long productId){
+        log.info("findCartByCustomerIdAndProductId start customerId: {}, productId: {}", customerId, productId);
         CartExample cartExample = new CartExample();
         cartExample.createCriteria().andCustomerIdEqualTo(customerId).andProductIdEqualTo(productId);
         List<Cart> cartList = cartMapper.selectByExample(cartExample);

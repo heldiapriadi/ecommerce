@@ -4,6 +4,7 @@ import com.example.ecommerce.filter.AuthEntryPointJwt;
 import com.example.ecommerce.filter.JwtAuthenticationFilter;
 import com.example.ecommerce.process.CustomerUserDetailsService;
 import com.example.ecommerce.util.JwtTokenProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +37,8 @@ import java.util.List;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
-    String[] whiteList = new String[]{"/api/v1/auth/**","/api/v1/product-category/**"};
+    @Value("${url.whitelist.path}")
+    private String[] whiteList;
     @Resource
     private CustomerUserDetailsService customerUserDetailsService;
 
@@ -66,10 +68,10 @@ public class SecurityConfig{
         return authConfig.getAuthenticationManager();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers(whiteList);
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().antMatchers(whiteList);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -78,12 +80,12 @@ public class SecurityConfig{
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests((authorize) -> authorize
                         .antMatchers(whiteList).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
 
 
         http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customerUserDetailsService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, customerUserDetailsService, whiteList), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

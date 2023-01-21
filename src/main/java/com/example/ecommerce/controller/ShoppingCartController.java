@@ -10,6 +10,7 @@ import com.example.ecommerce.request.ClearCartRequest;
 import com.example.ecommerce.request.RemoveFromCartRequest;
 import com.example.ecommerce.response.ApiResponse;
 import com.example.ecommerce.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/shopping-cart")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ShoppingCartController {
     @Resource
     private CartOperations cartOperations;

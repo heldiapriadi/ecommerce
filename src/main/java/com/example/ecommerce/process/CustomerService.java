@@ -6,6 +6,7 @@ import com.example.ecommerce.db.mapper.CustomerMapper;
 import com.example.ecommerce.exception.SignUpException;
 import com.example.ecommerce.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomerService implements UserOperations{
     private final AuthenticationManager authenticationManager;
 
@@ -28,6 +30,7 @@ public class CustomerService implements UserOperations{
 
     @Override
     public boolean existsByEmail(String email) {
+        log.info("Checking if email exists: {}", email);
         CustomerExample customerExample = new CustomerExample();
         customerExample.createCriteria().andEmailEqualTo(email);
         return customerMapper.countByExample(customerExample) > 0;
@@ -35,6 +38,7 @@ public class CustomerService implements UserOperations{
 
     @Override
     public String signIn(String email, String password) {
+        log.info("Signing in user: {}", email);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password)
         );
@@ -44,6 +48,7 @@ public class CustomerService implements UserOperations{
 
     @Override
     public void signUp(String name, String email, String password, String address) {
+        log.info("Signing up user: {} with email: {} and address: {}", name, email, address);
         if(existsByEmail(email)){
             throw new SignUpException("Email already exists");
         }

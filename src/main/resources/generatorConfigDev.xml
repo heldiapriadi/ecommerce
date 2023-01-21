@@ -28,13 +28,13 @@
         <table tableName="product" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
             <generatedKey column="product_id" sqlStatement="MySQL" identity="true" />
         </table>
-        <table tableName="order"  enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
+        <table tableName="transaction_order"  enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
             <generatedKey column="order_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="order_item" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
             <generatedKey column="order_item_id" sqlStatement="MySQL" identity="true" />
         </table>
-        <table tableName="payment" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
+        <table tableName="transaction_payment" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
             <generatedKey column="payment_id" sqlStatement="MySQL" identity="true" />
         </table>
         <table tableName="cart" enableCountByExample="true" enableSelectByExample="true" enableUpdateByExample="true" enableDeleteByExample="true">
