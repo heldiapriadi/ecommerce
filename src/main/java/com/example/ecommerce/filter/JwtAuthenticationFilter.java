@@ -6,6 +6,7 @@ import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
@@ -33,11 +34,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
     private final CustomerUserDetailsService customerUserDetailsService;
+    private final String[] whiteList;
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
+
+        if(Boolean.TRUE.equals(isWhiteList(request.getRequestURI()))){
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
@@ -45,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throw new JwtException("Expired or invalid JWT token");
         }
 
-        log.info(token);
 
         if (!jwtTokenProvider.validateToken(token)) {
             throw new JwtException("Expired or invalid JWT token");
@@ -67,5 +73,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request,response);
         SecurityContextHolder.clearContext();
+    }
+
+    private Boolean isWhiteList(String url){
+        for(String white : whiteList){
+            if(url.startsWith(white.substring(1, white.length()-1))){
+                return true;
+            }
+        }
+        return false;
     }
 }
