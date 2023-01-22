@@ -85,3 +85,6 @@ All successful requests will return a response with a status code of 200 OK and 
 
 ## Accessing the API documentation
 To access the API documentation and try out the endpoints, you can use the Swagger UI by visiting **/swagger-ui/index.html** in your web browser. The Swagger UI allows you to interact with the API, send requests, and view responses without writing any code.
+
+## Notes
+In addition to the features described above, this API also includes logging using MongoDB with the "ecommerce" database and "logs" collection. Each time a request is received by the API, the request and response information will be recorded in the "logs" collection as analysis and troubleshooting material. This allows tracking user activity and identifying potential issues within the system.
