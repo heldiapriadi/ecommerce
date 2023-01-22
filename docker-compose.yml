@@ -1,0 +1,41 @@
+version: '3'
+services:
+  ecommerce:
+    container_name: ecommerce
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/ecommerce
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - MONGO_URL=mongodb://mongodb:27017
+    ports:
+      - "8888:8888"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+      - mysqldb
+    restart:
+      on-failure
+  mysqldb:
+    container_name: ecommerce_mysqldb
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=ecommerce
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldb_data:/var/lib/mysql
+  mongodb:
+    image: mongo
+    container_name: ecommerce_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+volumes:
+  mysqldb_data:
+  mongodb_data:

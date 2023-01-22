@@ -1,12 +1,11 @@
 package com.example.ecommerce.process;
 
-import com.example.ecommerce.db.bean.CartExample;
-import com.example.ecommerce.db.bean.OrderItem;
-import com.example.ecommerce.db.bean.TransactionOrder;
+import com.example.ecommerce.db.bean.*;
 import com.example.ecommerce.db.custom.bean.ProductCart;
 import com.example.ecommerce.db.custom.mapper.CartProductMapper;
 import com.example.ecommerce.db.custom.mapper.OrderMapper;
 import com.example.ecommerce.db.mapper.OrderItemMapper;
+import com.example.ecommerce.db.mapper.ProductMapper;
 import com.example.ecommerce.db.mapper.TransactionOrderMapper;
 import com.example.ecommerce.exception.CheckoutException;
 import com.example.ecommerce.util.Constant;
@@ -29,6 +28,8 @@ public class OrderService implements CheckoutOrderOperations{
     private final OrderItemMapper orderItemMapper;
     private final CheckoutPaymentOperations checkoutPaymentOperations;
     private final CartOperations cartOperations;
+
+    private final ProductMapper productMapper;
 
 
     @Override
@@ -61,8 +62,19 @@ public class OrderService implements CheckoutOrderOperations{
             orderItem.setPrice(productCart.getPrice());
             orderItemMapper.insertSelective(orderItem);
             cartOperations.removeFromCart(customerId, productCart.getProductId());
+            updateStockProduct(productCart.getProductId(), productCart.getQuantity());
         });
 
         checkoutPaymentOperations.createPayment(customerId, order.getOrderId(), paymentId);
+    }
+
+    private void updateStockProduct(Long productId, Integer quantity){
+        ProductExample productExample = new ProductExample();
+        productExample.createCriteria().andProductIdEqualTo(productId);
+
+        Product product = new Product();
+        product.setQuantity(product.getQuantity() - quantity);
+
+        productMapper.updateByExampleSelective(product,productExample);
     }
 }

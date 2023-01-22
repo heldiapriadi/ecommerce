@@ -68,10 +68,6 @@ public class SecurityConfig{
         return authConfig.getAuthenticationManager();
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers(whiteList);
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

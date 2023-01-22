@@ -14,8 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -27,6 +25,7 @@ public class CustomerService implements UserOperations{
     private final CustomerMapper customerMapper;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public boolean existsByEmail(String email) {

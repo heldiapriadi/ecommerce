@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- use Spring default values -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <appender name="MONGODB" class="com.example.ecommerce.config.MongoAppender">
+        <mongoUri>${MONGO_URL}</mongoUri>
+        <database>ecommerce</database>
+        <collection>logs</collection>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    <logger name="com.example.ecommerce" level="INFO">
+        <appender-ref ref="MONGODB"/>
+    </logger>
+
+
+</configuration>

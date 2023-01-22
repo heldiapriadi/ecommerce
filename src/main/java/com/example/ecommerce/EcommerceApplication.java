@@ -7,6 +7,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 @MapperScans(value = {
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		@MapperScan("com.example.ecommerce.db.custom.mapper")
 })
 @SecurityScheme(name = "Bearer Authentication", scheme = "bearer", bearerFormat = "JWT" ,type = SecuritySchemeType.HTTP)
+@EnableMongoRepositories
 public class EcommerceApplication {
 
 	public static void main(String[] args) {
