@@ -2,7 +2,7 @@
 This is an OpenAPI definition for an API that provides functionality for E-Commerce. The API includes the following endpoints:
 
 ## Enitity Relationship Diagram (ERD)
-![image.png]( https://raw.githubusercontent.com/heldiapriadi/ecommerce/master/other/ecommerce-Page-2.drawio.png )
+![image.png]( https://raw.githubusercontent.com/heldiapriadi/ecommerce/master/other/ecommerce-erd.png )
 ## Endpoints
 ### Add to Cart
 **_POST /api/v1/shopping-cart/add-to-cart_**
