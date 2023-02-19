@@ -10,7 +10,7 @@
         </encoder>
     </appender>
     <appender name="MONGODB" class="com.example.ecommerce.config.MongoAppender">
-        <mongoUri>${MONGO_URL}</mongoUri>
+        <mongoUri>${SPRING_DATA_MONGODB_URI}</mongoUri>
         <database>ecommerce</database>
         <collection>logs</collection>
     </appender>

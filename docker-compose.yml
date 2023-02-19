@@ -9,7 +9,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/ecommerce
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=
-      - MONGO_URL=mongodb://mongodb:27017
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/ecommerce
     ports:
       - "8888:8888"
     links:
@@ -17,8 +17,9 @@ services:
     depends_on:
       - mongodb
       - mysqldb
-    restart:
-      on-failure
+    restart: on-failure
+    networks:
+      - ecommerce_network
   mysqldb:
     container_name: ecommerce_mysqldb
     image: mysql:8.0
@@ -29,6 +30,8 @@ services:
       - "3306:3306"
     volumes:
       - mysqldb_data:/var/lib/mysql
+    networks:
+      - ecommerce_network
   mongodb:
     image: mongo
     container_name: ecommerce_mongodb
@@ -36,6 +39,10 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - ecommerce_network
 volumes:
   mysqldb_data:
   mongodb_data:
+networks:
+  ecommerce_network:
